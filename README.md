@@ -18,5 +18,5 @@ docker-compose up -d
 # Run Rust App
 
 ```shell
-cargo run
+cargo test
 ```
