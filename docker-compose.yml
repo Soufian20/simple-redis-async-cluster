@@ -1,0 +1,112 @@
+version: "3.9"
+services:
+  redisinsight:
+    #image: redis/redis-stack:7.0.6-RC4
+    image: redislabs/redisinsight:1.13.1 # a only redis gui image from redis with RedisInsight 1.X, Docker RedisInsight 2.X will be released in early 2023
+    container_name: redisinsight
+    # to connect to a redis node over the ui http://localhost:8001 with localhost:<redisNodePort>
+    network_mode: "host"
+
+  # Redis cluster minimial setup with 3 master and 3 replica nodes
+  redisclusterinit:
+    container_name: redisclusterinit
+    build:
+      context: redis
+      dockerfile: Dockerfile
+    depends_on:
+      - redisNode1
+      - redisNode2
+      - redisNode3
+      - redisNode4
+      - redisNode5
+      - redisNode6
+
+  redisNode1:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode1
+    ports:
+      - "6370:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode1/redis_stack:/data
+      - ./volumes/redis/redisNode1/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf
+
+  redisNode2:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode2
+    ports:
+      - "6371:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode2/redis_stack:/data
+      - ./volumes/redis/redisNode2/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf
+
+  redisNode3:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode3
+    ports:
+      - "6372:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode3/redis_stack:/data
+      - ./volumes/redis/redisNode3/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf
+
+  redisNode4:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode4
+    ports:
+      - "6373:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode4/redis_stack:/data
+      - ./volumes/redis/redisNode4/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf
+
+  redisNode5:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode5
+    ports:
+      - "6374:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode5/redis_stack:/data
+      - ./volumes/redis/redisNode5/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf
+
+  redisNode6:
+    image: redis/redis-stack-server:7.0.6-RC4
+    container_name: redisNode6
+    ports:
+      - "6375:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./volumes/redis/redisNode6/redis_stack:/data
+      - ./volumes/redis/redisNode6/redis_stack/log:/var/log/redis
+      - ./redis/redisNode.conf:/redis-stack.conf

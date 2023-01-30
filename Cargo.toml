@@ -1,0 +1,10 @@
+[package]
+name = "redis-cluster-test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+redis = { version = "0.22", features = ["tokio-comp", "cluster", "connection-manager", "tokio-native-tls-comp", "tls", "cluster-async"], git="https://github.com/jaymell/redis-rs.git", branch="cluster-async" }
+tokio = { version = "1.19", features = ["full"] }
